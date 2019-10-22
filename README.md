@@ -7,6 +7,17 @@ ADM-ZIP is a pure JavaScript implementation for zip data compression for [NodeJS
 With [npm](http://npmjs.org) do:
 
     $ npm install adm-zip
+
+# 扩展项
+本项目基于 https://github.com/cthackers/adm-zip 改造,扩展了文件名称编码(读取zip时);
+使用方法:
+```JavaScript
+adm = require('./adm-zip.js')
+toC = require('buf2cn')
+adm.setNameEncoder(toC.toChinese)
+z = new adm('y:/aa.zip')
+z.getEntries().map(x=>x.entryName)
+```
 	
 ## What is it good for?
 The library allows you to:

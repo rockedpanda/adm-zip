@@ -548,15 +548,14 @@ module.exports = function (/*String*/input) {
 				return null;
 			}
 			return _zip.compressToBuffer()
-		},
-
-		/**
-		 * 修改文件名解码算法,主动传入文件名解码的具体实现
-		 * @param {Function} fn zip中的文件名的解码函数
-		 */
-		setNameEncoder: function(fn){
-			ZipEntry.setNameEncoder(fn);
 		}
-
 	}
 };
+
+/**
+ * 修改文件名解码算法,主动传入文件名解码的具体实现
+ * @param {Function} fn zip中的文件名的解码函数
+ */
+module.exports.setNameEncoder = function(fn){
+	ZipEntry.setNameEncoder(fn);
+}

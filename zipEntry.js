@@ -2,18 +2,8 @@ var Utils = require("./util"),
     Headers = require("./headers"),
     Constants = Utils.Constants,
     Methods = require("./methods");
-var iconv = require('iconv-lite');
-function toGBK(buf){
-    return iconv.decode(buf,'GBK');
-}
-function toUTF8(buf){
-    return iconv.decode(buf,'UTF-8');
-}
-function toChinese(buf){
-    let g = toGBK(buf);
-    let u = toUTF8(buf);
-    return g.length > u.length?u:g;
-}
+
+var _nameEncoder = function(s){return s.toString();};
 
 module.exports = function (/*Buffer*/input) {
 
@@ -22,8 +12,8 @@ module.exports = function (/*Buffer*/input) {
         _comment = Buffer.alloc(0),
         _isDirectory = false,
         uncompressedData = null,
-        _extra = Buffer.alloc(0),
-        _nameEncoder = function(s){return toChinese(s);};
+        _extra = Buffer.alloc(0);
+        
 
     function getCompressedDataFromZip() {
         if (!input || !Buffer.isBuffer(input)) {
@@ -298,10 +288,10 @@ module.exports = function (/*Buffer*/input) {
                 '\t"compressedData" : <' + (input && input.length  + " bytes buffer" || "null") + ">\n" +
                 '\t"data" : <' + (uncompressedData && uncompressedData.length  + " bytes buffer" || "null") + ">\n" +
                 '}';
-        },
-
-        setNameEncoder: function(fn){
-            _nameEncoder = fn;
         }
     }
+};
+
+module.exports.setNameEncoder = function(fn){
+    _nameEncoder = fn;
 };
